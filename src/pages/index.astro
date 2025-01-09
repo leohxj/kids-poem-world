@@ -4,11 +4,37 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 const poems = await getCollection('poems');
 const dynasties = [...new Set(poems.map(poem => poem.data.dynasty))];
+const poemSlugs = poems.map(poem => poem.slug);
 ---
 
 <BaseLayout title="首页">
   <div class="space-y-8">
-    <h1 class="text-3xl font-bold text-gray-900">经典诗词鉴赏</h1>
+    <h1 class="text-3xl font-bold text-gray-900 text-center">经典诗词鉴赏</h1>
+
+    <div class="flex justify-center my-12">
+      <button
+        id="randomPoemBtn"
+        class="px-8 py-4 text-lg font-medium text-white bg-blue-600 rounded-lg shadow-lg hover:bg-blue-700 transform hover:scale-105 transition-all duration-200 ease-in-out"
+      >
+        <span class="flex items-center">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6 mr-2"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"
+            />
+          </svg>
+          随机一首
+        </span>
+      </button>
+    </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {dynasties.map(dynasty => (
@@ -35,3 +61,11 @@ const dynasties = [...new Set(poems.map(poem => poem.data.dynasty))];
     </div>
   </div>
 </BaseLayout>
+
+<script define:vars={{ poemSlugs }}>
+  document.getElementById('randomPoemBtn')?.addEventListener('click', () => {
+    const randomIndex = Math.floor(Math.random() * poemSlugs.length);
+    const randomSlug = poemSlugs[randomIndex];
+    window.location.href = `/poems/${randomSlug}`;
+  });
+</script>
