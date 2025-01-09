@@ -1,11 +1,37 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const poems = await getCollection('poems');
+const dynasties = [...new Set(poems.map(poem => poem.data.dynasty))];
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<BaseLayout title="首页">
+  <div class="space-y-8">
+    <h1 class="text-3xl font-bold text-gray-900">经典诗词鉴赏</h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {dynasties.map(dynasty => (
+        <div class="bg-white p-6 rounded-lg shadow">
+          <h2 class="text-xl font-bold text-gray-900 mb-4">{dynasty}</h2>
+          <ul class="space-y-2">
+            {poems
+              .filter(poem => poem.data.dynasty === dynasty)
+              .slice(0, 5)
+              .map(poem => (
+                <li>
+                  <a
+                    href={`/poems/${poem.slug}`}
+                    class="text-blue-600 hover:text-blue-800"
+                  >
+                    {poem.data.title}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      ))}
+    </div>
+  </div>
+</BaseLayout>

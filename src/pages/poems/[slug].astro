@@ -1,0 +1,25 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const poems = await getCollection('poems');
+  return poems.map(poem => ({
+    params: { slug: poem.slug },
+    props: { poem },
+  }));
+}
+
+const { poem } = Astro.props;
+const { Content } = await poem.render();
+---
+
+<BaseLayout title={poem.data.title}>
+  <article class="prose prose-slate lg:prose-lg mx-auto">
+    <h1>{poem.data.title}</h1>
+    <p class="text-gray-600">
+      {poem.data.dynasty} · {poem.data.author}
+    </p>
+    <Content />
+  </article>
+</BaseLayout>
