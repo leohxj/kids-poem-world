@@ -4,22 +4,12 @@ import type { CollectionEntry } from 'astro:content';
 import PoemContent from '../../components/PoemContent.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
+
+
 export async function getStaticPaths() {
   const poems = await getCollection('poems');
-  return poems.map(poem => ({
-    params: { slug: poem.id},
-    props: { poem },
-  }));
-}
 
-const { poem } = Astro.props;
-const rawContent = await poem.body;
-
-// 获取所有诗歌
-const allPoems = await getCollection('poems');
-
-// 获取推荐诗歌
-function getRecommendedPoems(currentPoem: CollectionEntry<"poems">, allPoems: CollectionEntry<"poems">[]) {
+  function getRecommendedPoems(currentPoem: CollectionEntry<"poems">, allPoems: CollectionEntry<"poems">[]) {
   const recommendations = new Set<CollectionEntry<"poems">>();
 
   // 1. 同作者的诗
@@ -40,15 +30,28 @@ function getRecommendedPoems(currentPoem: CollectionEntry<"poems">, allPoems: Co
     recommendations.add(sameAuthorPoems[Math.floor(Math.random() * sameAuthorPoems.length)]);
   }
 
-  while (recommendations.size < 3 && sameDynastyPoems.length > 0) {
-    const randomPoem = sameDynastyPoems[Math.floor(Math.random() * sameDynastyPoems.length)];
-    recommendations.add(randomPoem);
+  if (sameDynastyPoems.length > 0) {
+    recommendations.add(sameDynastyPoems[Math.floor(Math.random() * sameDynastyPoems.length)]);
   }
+
+
 
   return Array.from(recommendations).slice(0, 3);
 }
 
-const recommendedPoems = getRecommendedPoems(poem, allPoems);
+
+  return poems.map(poem => {
+    const recommendedPoems = getRecommendedPoems(poem, poems);
+    return {
+      params: { slug: poem.id},
+      props: { poem, recommendedPoems },
+    };
+  });
+}
+
+const { poem, recommendedPoems } = Astro.props;
+const rawContent = poem.body;
+
 ---
 
 <BaseLayout title={poem.data.title} description={poem.data.description}>

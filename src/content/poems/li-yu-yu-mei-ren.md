@@ -2,7 +2,6 @@
 title: 虞美人·春花秋月何时了
 author: 李煜
 dynasty: 南唐
-tags: ["亡国之痛", "悲伤"]
 description: "这是李煜被俘后所作，抒发了亡国之君的悲痛心情。"
 ---
 

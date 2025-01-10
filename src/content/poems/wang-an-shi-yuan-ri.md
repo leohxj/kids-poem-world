@@ -2,7 +2,6 @@
 title: 元日
 author: 王安石
 dynasty: 宋朝
-tags: ["节日", "新年"]
 description: "这首诗描写了农历新年的热闹景象和美好愿望。"
 ---
 

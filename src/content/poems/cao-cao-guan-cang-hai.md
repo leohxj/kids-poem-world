@@ -2,7 +2,6 @@
 title: 观沧海
 author: 曹操
 dynasty: 汉朝
-tags: ["壮志", "豪迈"]
 description: "这首诗展现了曹操雄才大略的政治抱负和豪迈气概。"
 ---
 
