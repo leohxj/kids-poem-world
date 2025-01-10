@@ -1,0 +1,19 @@
+---
+const { title, description, image, article = false } = Astro.props;
+---
+<meta name="description" content={description}>
+<meta property="og:title" content={title}>
+<meta property="og:description" content={description}>
+<meta property="og:image" content={image}>
+{article && (
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": title,
+      "image": image,
+      "description": description
+      // 添加更多结构化数据
+    }
+  </script>
+)}
