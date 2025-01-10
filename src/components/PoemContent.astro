@@ -1,0 +1,10 @@
+---
+const { content } = Astro.props;
+---
+<div class="text-center mb-12">
+  {
+    content.split('\n').filter(line => line.trim()).map(line => (
+      <p class="my-4 text-lg leading-relaxed">{line.trim()}</p>
+    ))
+  }
+</div>

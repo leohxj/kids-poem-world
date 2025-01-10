@@ -15,8 +15,13 @@ module.exports = {
 							marginBottom: "1em",
 						},
 						p: {
-							marginTop: "1.25em",
-							marginBottom: "1.25em",
+							marginTop: "1rem",
+							marginBottom: "1rem",
+							lineHeight: "2",
+							fontSize: "1.125rem",
+						},
+						"p + p": {
+							marginTop: "1.5rem",
 						},
 						a: {
 							color: "#3182ce",
